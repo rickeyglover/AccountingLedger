@@ -24,8 +24,8 @@ public class Home {
             System.out.println("\t(L) - Ledger");
             System.out.println("\t(X) - Exit");
 
-            System.out.print("Make a selection: ");
-            String userInput = myScanner.next().trim().toUpperCase();
+            System.out.println("Make a selection: ");
+            String userInput = myScanner.nextLine().trim().toUpperCase();
 
             switch (userInput) {
                 case "D":
@@ -36,85 +36,62 @@ public class Home {
                     makePayment();
                     break;
 
-                //case "L":
-                   // Ledger.display();
+                case "L":
+                    Ledger.display();
+                    break;
 
                 case "X":
-                    myScanner.close();
-                    return;
+                    System.exit(0);
                 default:
                     System.out.println("Error, try again");
             }
         }
     }
-    public static void readTransactions() throws IOException {
-        BufferedReader readFile = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
-        String input;
-        LocalDate transactionDate;
-        LocalTime transactionTime;
-        String transactionDescription;
-        String transactionVendor;
-        double transactionAmount;
 
-        while ((input = readFile.readLine()) != null){
-            String[] transactionList = input.split("\\|");
-            if (!transactionList[0].equals("date")){
-                transactionDate = LocalDate.parse(transactionList[0]);
-                transactionTime = LocalTime.parse(transactionList[1]);
-                transactionDescription = transactionList[2];
-                transactionVendor = transactionList[3];
-
-                if (!transactionList[4].isEmpty()){
-                    transactionAmount = Double.parseDouble(transactionList[4]);
-                    TRANSACTION.add(new Transaction(transactionDate,transactionTime, transactionDescription, transactionVendor, transactionAmount));
-                }
-
-            }
-        }
-        readFile.close();
-    }
     public static void addDeposit()throws  IOException{
-        System.out.print("Name of the deposit ");
-        String description = myScanner.next().trim();
+        System.out.println("Name of the deposit? ");
+        String description = myScanner.nextLine().trim();
 
-        System.out.print("The name of the vendor? ");
-        String vendor = myScanner.next().trim();
+        System.out.println("The name of the vendor? ");
+        String vendor = myScanner.nextLine().trim();
 
-        System.out.print("The amount? ");
+        System.out.println("The amount? ");
         double amount = myScanner.nextDouble();
         myScanner.nextLine();
         String amountFormatted = df.format(amount);
 
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("src/main/resoursces/transactions.csv", true));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("src/main/resources/transactions.csv", true));
 
         String date = String.valueOf(LocalDate.now());
         String time = fmt.format(LocalTime.now());
 
-        bufferedWriter.write(date + "" + time + "" + description + "" + vendor + "" + amountFormatted + "\n");
+        bufferedWriter.newLine();
+        bufferedWriter.write(date + "|" + time + "|" + description + "|" + vendor + "|" + amountFormatted);
         bufferedWriter.close();
 
 
 
     }
     public static void makePayment() throws IOException{
-        System.out.print("What's the name of item");
-        String description = myScanner.next().trim();
+        System.out.println("What's the name of item ");
+        String description = myScanner.nextLine().trim();
 
-        System.out.print("What's the name of the vendor");
-        String vendor = myScanner.next().trim();
+        System.out.println("What's the name of the vendor ");
+        String vendor = myScanner.nextLine().trim();
 
-        System.out.print("What's the amount? ");
+        System.out.println("What's the amount? ");
         double amount = myScanner.nextDouble();
         myScanner.nextLine();
         amount *= -1;
         String amountFormatted = df.format(amount);
 
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("src/main/resources/transaction.csv", true));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("src/main/resources/transactions.csv", true));
 
         String date = String.valueOf(LocalDate.now());
         String time = fmt.format(LocalTime.now());
 
-        bufferedWriter.write(date + "" + time + "" + description + "" + vendor + "" + amountFormatted + "\n");
+        bufferedWriter.newLine();
+        bufferedWriter.write(date + "|" + time + "|" + description + "|" + vendor + "|" + amountFormatted);
 
         bufferedWriter.close();
     }
