@@ -1,5 +1,6 @@
 package com.pluralsight;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -25,6 +26,9 @@ public class Transaction {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+    public LocalDateTime getDateTime(){
+        return LocalDateTime.of(this.getDate(), LocalTime.parse(this.getTime()));
     }
 
     public String getTime() {
