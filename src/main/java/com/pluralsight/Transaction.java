@@ -1,17 +1,23 @@
 package com.pluralsight;
+
+//calling all classes needed for date and time
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Transaction {
+    //declaring variables
     LocalDate date;
     LocalTime time;
     String description;
     String vendor;
     Double amount;
+
+    //creating object to format time in that pattern
     DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
 
+    //constructor
     public Transaction(LocalDate transactionDate, LocalTime transactionTime, String transactionDescription, String transactionVendor, double transactionAmount) {
         this.date = transactionDate;
         this.time = transactionTime;
@@ -20,6 +26,7 @@ public class Transaction {
         this.amount = transactionAmount;
     }
 
+    //getters and setters
     public LocalDate getDate() {
         return date;
     }

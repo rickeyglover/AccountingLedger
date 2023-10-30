@@ -9,18 +9,25 @@ import java.text.DecimalFormat;
 
 
 public class Home {
+    //declaring static variables
+
     public static Scanner myScanner = new Scanner(System.in);
-    public static ArrayList<Transaction> TRANSACTION = new ArrayList<>();
+    //takes user inputs
+    public static ArrayList<Transaction> transactionA = new ArrayList<>();
+    //stores instances of the Transaction class
     public static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
+    //for time formatting
     public static DecimalFormat df = new DecimalFormat("0.00");
+    //for formatting decimal numbers
+
+    //display method to main menu
     public static void display() throws IOException{
 
-        //readTransactions();
-
+        //prompts user for input
         while(true){
             System.out.println("Welcome to Michael & Lewis");
             System.out.println("\t(D) - Add Deposit");
-            System.out.println("\t(P) - Make a Payment(Debit)");;
+            System.out.println("\t(P) - Make a Payment(Debit)");
             System.out.println("\t(L) - Ledger");
             System.out.println("\t(X) - Exit");
 
@@ -47,7 +54,7 @@ public class Home {
             }
         }
     }
-
+        //method for adding deposit
     public static void addDeposit()throws  IOException{
         System.out.println("Name of the deposit? ");
         String description = myScanner.nextLine().trim();
@@ -72,6 +79,7 @@ public class Home {
 
 
     }
+    //method for making payment
     public static void makePayment() throws IOException{
         System.out.println("What's the name of item ");
         String description = myScanner.nextLine().trim();
@@ -82,6 +90,7 @@ public class Home {
         System.out.println("What's the amount? ");
         double amount = myScanner.nextDouble();
         myScanner.nextLine();
+        //multiply by negative 1 to show negative values for payments
         amount *= -1;
         String amountFormatted = df.format(amount);
 

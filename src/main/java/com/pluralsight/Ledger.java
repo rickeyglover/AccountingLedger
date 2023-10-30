@@ -5,16 +5,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import static com.pluralsight.Home.myScanner;
-import static com.pluralsight.Home.TRANSACTION;
+import static com.pluralsight.Home.transactionA;
 import static com.pluralsight.Home.*;
 
 public class Ledger {
 
-    public static ArrayList<Transaction> sortedTransaction = new ArrayList<>(TRANSACTION);
+    public static ArrayList<Transaction> sortedTransaction = new ArrayList<>(transactionA);
+    //creates list call sortedTransaction using contents of TransactionA list
 
     public static void display() throws IOException {
+        //display Ledger menu
+
         Reader.readTransactions();
         sortedTransaction.sort(Collections.reverseOrder(Comparator.comparing(Transaction::getDateTime)));
+        //sorts the sortedTransactions in reverse order based on the DateTime of each transaction
 
         while (true) {
             System.out.println("What would you like to do?");
@@ -49,6 +53,7 @@ public class Ledger {
         }
     }
 
+    //displays all transaction entries
     public static void displayAll() {
         for (Transaction t : sortedTransaction) {
             System.out.printf("Date: %s | Time: %s | Description: %s | Vendor: %s | Amount $%.2f\n",
@@ -56,8 +61,10 @@ public class Ledger {
         }
     }
 
+    //displays deposits
     public static void displayDeposit() {
         for (Transaction t : sortedTransaction) {
+            //> 0 because all values will be positive
             if (t.amount > 0) {
                 System.out.printf("Date: %s | Time: %s | Description: %s | Vendor: %s | Amount $%.2f\n",
                         t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
@@ -65,8 +72,10 @@ public class Ledger {
         }
     }
 
+    //displays payments
     public static void displayPayments() {
         for (Transaction t : sortedTransaction) {
+            //< 0 because all values will be negative
             if (t.amount < 0) {
                 System.out.printf("Date: %s | Time: %s | Description: %s | Vendor: %s | Amount: $%.2f\n",
                         t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
@@ -74,6 +83,7 @@ public class Ledger {
         }
     }
 
+    //display reports menu
     public static void displayReports() throws IOException {
         while (true) {
             System.out.println("\t(1) Month to Date");
@@ -123,6 +133,7 @@ public class Ledger {
     public static Year currentYear = Year.from(today);
     public static Month previousMonth = currentMonth.minus(1);
     public static Year previousYear = currentYear.minusYears(1);
+    // favorite part because time is stupid
 
 
     public static void displayMonthToDate() {
@@ -133,7 +144,7 @@ public class Ledger {
             if (transactionYear.equals(currentYear) && transactionMonth.equals(currentMonth)) {
                 System.out.printf("date|%s|time|%s|description|%s|vendor|%s|amount|$%.2f%n",
                         transactionDate, t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-                ;
+
             }
         }
     }
@@ -142,7 +153,6 @@ public class Ledger {
         for (Transaction t : sortedTransaction) {
             LocalDate transactionDate = t.getDate();
             Year transactionYear = Year.from(transactionDate);
-            Month transactionMonth = Month.from(transactionDate);
             if (transactionYear.equals(currentYear)) {
                 System.out.printf("date|%s|time|%s|description|%s|vendor|%s|amount|$%.2f%n",
                         transactionDate, t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
@@ -161,18 +171,19 @@ public class Ledger {
             }
         }
     }
+
     public static void displayPreviousYear() {
         for (Transaction t : sortedTransaction) {
             LocalDate transactionDate = t.getDate();
             Year transactionYear = Year.from(transactionDate);
-            Month transactionMonth = Month.from(transactionDate);
             if (transactionYear.equals(previousYear)) {
                 System.out.printf("date|%s|time|%s|description|%s|vendor|%s|amount|$%.2f%n",
                         transactionDate, t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
             }
         }
     }
-    public static void SearchVendor(){
+
+    public static void SearchVendor() {
         System.out.println("Enter the name of the vendor ");
         String inputtedVendor = myScanner.nextLine().trim();
         for (Transaction t : sortedTransaction) {
@@ -180,12 +191,12 @@ public class Ledger {
             if (vendor.equalsIgnoreCase(inputtedVendor)) {
                 System.out.printf("date|%s|time|%s|description|%s|vendor|%s|amount|$%.2f%n",
                         t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-            }
-            else {
+            } else {
                 System.out.println("Error, try again");
             }
             break;
-        }
 
+
+        }
     }
 }
